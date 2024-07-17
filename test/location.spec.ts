@@ -40,12 +40,15 @@ async function readExcelFile(filePath) {
       fileData.Sheets[fileData.SheetNames[0]],
     );
     const funArray = data.map((row) => {
-      return async function (cb) {
-        await addPincode(row.Pincode);
-        cb();
+      return function (cb) {
+        (async() => {
+          await addPincode(row.Pincode);
+
+          cb();
+        })()
       };
     });
-    console.log('length ==> ', funArray.length)
+    console.log('length ==> ', funArray.length);
 
     async function recursive(start, limit) {
       let batch;
@@ -53,11 +56,10 @@ async function readExcelFile(filePath) {
         batch = funArray.splice(start, start + limit);
       else batch = funArray.splice(start, funArray.length - 1);
 
-      await async.parallel(batch, () => {
-        console.log('add pincode api called for pincode');
-      });
-
-      //   if (!funArray.length) recursive(start + limit, limit); // Uncomment this line to insert all pincode locaction data in batch
+      await async.parallel(batch);
+      console.log(`batch ====> `, batch.length);
+      // if (!funArray.length)
+      //   setTimeout(() => recursive(start + limit, limit), 2000); // Uncomment this line to insert all pincode locaction data in batch
     }
 
     recursive(0, 100);
