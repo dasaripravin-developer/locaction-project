@@ -1,11 +1,12 @@
 const axios = require('axios');
 const xlsx = require('xlsx');
 const async = require('async');
+const host = 'http://13.232.37.194'
 
 // Testing of insert pincode api
 async function addPincode(pincode) {
   try {
-    const response = await axios.post('http://localhost:3000/locations', {
+    const response = await axios.post(`${host}/locations`, {
       pincode,
     });
     console.log('Response:', response.data);
@@ -21,7 +22,7 @@ async function addPincode(pincode) {
 async function getLocationDetails(pincode) {
   try {
     const response = await axios.get(
-      `http://localhost:3000/locations/${pincode}`,
+      `${host}/locations/${pincode}`,
     );
     console.log('Response:', response.data);
   } catch (error) {
@@ -69,7 +70,7 @@ async function readExcelFile(filePath) {
 }
 
 (async () => {
-  // await addPincode("110002");
+  await addPincode("110002");
   await getLocationDetails("121003");
   // readExcelFile('../src/data/Pincode.xlsx');
 })();
