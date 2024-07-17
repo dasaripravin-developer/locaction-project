@@ -68,6 +68,6 @@ async function readExcelFile(filePath) {
 
 (async () => {
   // await addPincode("110002");
-  await getLocationDetails("121001");
-//   readExcelFile('../src/data/Pincode.xlsx');
+  await getLocationDetails("121003");
+  // readExcelFile('../src/data/Pincode.xlsx');
 })();

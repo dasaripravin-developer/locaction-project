@@ -33,7 +33,8 @@ export class LocationService {
         { pincode },
         { location: locationData[0].PostOffice },
         { new: true, upsert: true },
-      );
+      ).exec();
+      // updatedLocation.save()
       await this.redisService.set(pincode, updatedLocation.location);
       console.log(
         `locatonController - insertAndUpdateLocationDetails - ${pincode} - location details saved in DB - ${JSON.stringify(updatedLocation)}`,
@@ -53,7 +54,7 @@ export class LocationService {
       if (!locationData) {
         locationData = await this.locationModel.findOne({ pincode }, [
           'location',
-        ]);
+        ]).exec();
         if (!locationData)
           throw new Error(
             'Data not found in DB, Please insert location details',
